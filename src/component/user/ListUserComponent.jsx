@@ -9,6 +9,7 @@ class ListUserComponent extends Component {
             users: [],
             message: null
         }
+        this.deleteUser = this.deleteUser.bind(this);
         this.editUser = this.editUser.bind(this);
         this.addUser = this.addUser.bind(this);
         this.reloadUserList = this.reloadUserList.bind(this);
@@ -25,6 +26,13 @@ class ListUserComponent extends Component {
             });
     }
 
+    deleteUser(id) {
+        ApiService.deleteUser(id)
+                    .then(res => {
+                        this.setState({message : 'User deleted successfully.'});
+                        this.reloadUserList();
+                    });
+    }
 
     editUser(id) {
         window.localStorage.setItem("userId", id);

@@ -16,6 +16,10 @@ class ApiService {
         return axios.post(""+USER_API_BASE_URL, user);
     }
 
+    deleteUser(userId) {
+        return axios.delete(USER_API_BASE_URL + '/' + userId);
+    }
+
     editUser(user) {
         return axios.put(USER_API_BASE_URL + '/' + user.id, user);
     }
