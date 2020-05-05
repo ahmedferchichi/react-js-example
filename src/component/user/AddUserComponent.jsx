@@ -56,7 +56,7 @@ class AddUserComponent extends Component{
 
                 <div className="form-group">
                     <label>User Type: </label>
-                    <select value={this.state.userType} onChange={this.onChange}>
+                    <select name="userType" value={this.state.userType} onChange={this.onChange}>
                          <option value="Administrateur">Administrateur</option>
                          <option value="Modérateur">Modérateur</option>
                          <option value="Rédacteur">Rédacteur</option>
