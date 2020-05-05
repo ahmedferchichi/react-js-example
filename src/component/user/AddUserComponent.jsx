@@ -6,12 +6,11 @@ class AddUserComponent extends Component{
     constructor(props){
         super(props);
         this.state ={
-            username: '',
+            email: '',
             password: '',
             firstName: '',
             lastName: '',
-            age: '',
-            salary: '',
+            userType: '',
             message: null
         }
         this.saveUser = this.saveUser.bind(this);
@@ -19,7 +18,7 @@ class AddUserComponent extends Component{
 
     saveUser = (e) => {
         e.preventDefault();
-        let user = {username: this.state.username, password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age, salary: this.state.salary};
+        let user = {email: this.state.email, password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, typeUser: this.state.userType === "Rédacteur" ? "R" : this.state.userType === "Modérateur" ? "M" : "A"};
         ApiService.addUser(user)
             .then(res => {
                 this.setState({message : 'User added successfully.'});
@@ -36,8 +35,8 @@ class AddUserComponent extends Component{
                 <h2 className="text-center">Add User</h2>
                 <form>
                 <div className="form-group">
-                    <label>User Name:</label>
-                    <input type="text" placeholder="username" name="username" className="form-control" value={this.state.username} onChange={this.onChange}/>
+                    <label>Email:</label>
+                    <input type="email" placeholder="email" name="email" className="form-control" value={this.state.email} onChange={this.onChange}/>
                 </div>
 
                 <div className="form-group">
@@ -56,13 +55,12 @@ class AddUserComponent extends Component{
                 </div>
 
                 <div className="form-group">
-                    <label>Age:</label>
-                    <input type="number" placeholder="age" name="age" className="form-control" value={this.state.age} onChange={this.onChange}/>
-                </div>
-
-                <div className="form-group">
-                    <label>Salary:</label>
-                    <input type="number" placeholder="salary" name="salary" className="form-control" value={this.state.salary} onChange={this.onChange}/>
+                    <label>User Type: </label>
+                    <select value={this.state.userType} onChange={this.onChange}>
+                         <option value="Administrateur">Administrateur</option>
+                         <option value="Modérateur">Modérateur</option>
+                         <option value="Rédacteur">Rédacteur</option>
+                    </select>
                 </div>
 
                 <button className="btn btn-success" onClick={this.saveUser}>Save</button>

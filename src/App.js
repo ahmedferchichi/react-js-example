@@ -6,11 +6,10 @@ import AddUserComponent from "./component/user/AddUserComponent";
 import EditUserComponent from "./component/user/EditUserComponent";
 
 function App() {
-// test
   return (
       <div className="container">
           <Router>
-              <div className="col-md-6">
+              <div className="col-md-9">
                   <h1 className="text-center" style={style}>React User Application</h1>
                   <Switch>
                       <Route path="/" exact component={ListUserComponent} />
