@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ListUserComponent from "./component/user/ListUserComponent";
 import AddUserComponent from "./component/user/AddUserComponent";
 import EditUserComponent from "./component/user/EditUserComponent";
+import ListThematicComponent from "./component/thematic/ListThematicComponent";
+import AddThematicComponent from "./component/thematic/AddThematicComponent";
+import EditThematicComponent from "./component/thematic/EditThematicComponent";
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
                       <Route path="/users" component={ListUserComponent} />
                       <Route path="/add-user" component={AddUserComponent} />
                       <Route path="/edit-user" component={EditUserComponent} />
+                      <Route path="/themes" exact component={ListThematicComponent} />
+                      <Route path="/add-thematic" exact component={AddThematicComponent} />
+                      <Route path="/edit-thematic" exact component={EditThematicComponent} />
                   </Switch>
               </div>
           </Router>
