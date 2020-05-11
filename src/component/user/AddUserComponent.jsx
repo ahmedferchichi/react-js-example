@@ -6,8 +6,6 @@ class AddUserComponent extends Component{
     constructor(props){
         super(props);
         this.state ={
-        //dev commit
-        // branch-2
             username: '',
             password: '',
             firstName: '',
