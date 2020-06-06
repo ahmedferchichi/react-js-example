@@ -30,7 +30,7 @@ class ListThematicComponent extends Component {
         ThematicApiService.deleteThematic(id)
             .then(res => {
                 this.setState({message : 'Thematic deleted successfully.'});
-                this.setState({themes: this.state.themes.filter(thematic => thematic.id !== id)});;
+                this.setState({themes: this.state.themes.filter(thematic => thematic.id !== id)});
             });
     }
 
@@ -63,8 +63,8 @@ class ListThematicComponent extends Component {
                                     <tr key={thematic.id}>
                                         <td>{thematic.title}</td>
                                         <td>
-                                            <button className="btn btn-success" onClick={() => this.deleteThematic(thematic.id)}> Delete</button>
-                                            <button className="btn btn-success" onClick={() => this.editThematic(thematic.id)} style={{marginLeft: '20px'}}> Edit</button>
+                                            <button title="Delete" onClick={() => this.deleteThematic(thematic.id)}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            <button title="Edit" onClick={() => this.editThematic(thematic.id)} style={{marginLeft: '20px'}}><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                                         </td>
                                     </tr>
                                 )

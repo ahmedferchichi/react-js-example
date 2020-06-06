@@ -69,8 +69,8 @@ class ListUserComponent extends Component {
                                         <td>{user.email}</td>
                                         <td>{user.typeUser === "R" ? "Rédacteur" : user.typeUser === "M" ? "Modérateur" : "Administrateur"}</td>
                                         <td>
-                                            <button className="btn btn-success" onClick={() => this.deleteUser(user.id)}> Delete</button>
-                                            <button className="btn btn-success" onClick={() => this.editUser(user.id)} style={{marginLeft: '20px'}}> Edit</button>
+                                            <button title="Delete" onClick={() => this.deleteUser(user.id)}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            <button title="Edit" onClick={() => this.editUser(user.id)} style={{marginLeft: '20px'}}><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                                         </td>
                                     </tr>
                             )
