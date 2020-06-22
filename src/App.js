@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ToolbarComponent from "./component/ToolbarComponent";
 import LoginComponent from "./component/LoginComponent";
@@ -12,6 +13,7 @@ import EditThematicComponent from "./component/thematic/EditThematicComponent";
 import ListPublicationComponent from "./component/publication/ListPublicationComponent";
 import AddPublicationComponent from "./component/publication/AddPublicationComponent";
 import EditPublicationComponent from "./component/publication/EditPublicationComponent";
+import UploadFiles from "./component/upload-files.component";
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
                       <Route path="/publications" component={ListPublicationComponent} />
                       <Route path="/add-publication" component={AddPublicationComponent} />
                       <Route path="/edit-publication" component={EditPublicationComponent} />
+                      <Route path="/upload" component={UploadFiles} />
                   </Switch>
               </div>
           </Router>
