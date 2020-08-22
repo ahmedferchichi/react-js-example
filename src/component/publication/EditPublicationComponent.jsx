@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Multiselect } from 'multiselect-react-dropdown';
+
 import PublicationApiService from "../../service/PublicationApiService";
 import ThematicApiService from "../../service/thematic/ThematicApiService";
 

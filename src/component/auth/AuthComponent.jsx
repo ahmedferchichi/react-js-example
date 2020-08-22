@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import ThematicApiService from "../../service/thematic/ThematicApiService";
+import classes from './Auth.module.css';
 import Input from '../UI/input/Input';
 
-class AddThematicComponent extends Component{
+class AuthComponent extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state ={
             orderForm: {
-                title: {
-                    label: 'Title:',
+                email: {
+                    label: 'E-mail address',
                     elementType: 'input',
                     elementConfig: {
-                        type: 'text',
-                        name: 'title',
-                        placeholder: 'title',
+                        type: 'email',
+                        name: 'email',
+                        placeholder: 'Enter your E-mail',
                         className: 'form-control'
                     },
                     value: '',
@@ -24,11 +24,28 @@ class AddThematicComponent extends Component{
                     },
                     valid: false,
                     touched: false
+                },
+                password: {
+                    label: 'Password',
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'password',
+                        name: 'password',
+                        placeholder: 'Enter your password',
+                        className: 'form-control'
+                    },
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 8
+                    },
+                    valid: false,
+                    touched: false
                 }
-            },
-            message: null
+            }
         }
-        this.saveThematic = this.saveThematic.bind(this);
+        this.submit = this.submit.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     checkValidity(value, rules) {
@@ -38,17 +55,15 @@ class AddThematicComponent extends Component{
             isValid = value.trim() !== '' && isValid;
         }
 
+        if (rules.minLength) {
+            isValid = value.length >= rules.minLength && isValid;
+        }
+
         return isValid;
     }
 
-    saveThematic = (e) => {
-        e.preventDefault();
-        let thematic = {title: this.state.orderForm.title.value};
-        ThematicApiService.addThematic(thematic)
-            .then(res => {
-                this.setState({message : 'User added successfully.'});
-                this.props.history.push('/themes');
-            });
+    submit = (e) => {
+        this.props.history.push('/');
     }
 
     onChange = (e, inputIdentifier) => {
@@ -69,9 +84,10 @@ class AddThematicComponent extends Component{
                 config: this.state.orderForm[key]
             })
         }
-        let enable = this.state.orderForm.title.valid && this.state.orderForm.title.touched
+        let enable = this.state.orderForm.email.valid && this.state.orderForm.email.touched && this.state.orderForm.password.valid && this.state.orderForm.password.touched
         let form = (
-            <form >
+            <form onSubmit={this.submit}>
+                <h3>Sign In</h3>
                 {formElementsArray.map(formElement => (
                     <div className="form-group">
                         <label>{formElement.config.label}</label>
@@ -86,16 +102,15 @@ class AddThematicComponent extends Component{
                         />
                     </div>
                 ))}
-                <button disabled={!enable} className="btn btn-success" onClick={this.saveThematic}>Save</button>
+                <button disabled={!enable} type="submit" className="btn btn-primary btn-block"> Submit </button>
             </form>
         )
-        return(
-            <div>
-                <h2 className="text-center">Add Theme</h2>
+        return (
+            <div className={classes.ContactData}>
                 {form}
             </div>
         );
     }
 }
 
-export default AddThematicComponent;
+export default AuthComponent;

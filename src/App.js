@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ToolbarComponent from "./component/ToolbarComponent";
-import LoginComponent from "./component/LoginComponent";
+
+import DashboardComponent from "./component/DashboardComponent";
+import AuthComponent from "./component/auth/AuthComponent";
 import ListUserComponent from "./component/user/ListUserComponent";
 import AddUserComponent from "./component/user/AddUserComponent";
 import EditUserComponent from "./component/user/EditUserComponent";
@@ -15,13 +16,12 @@ import EditPublicationComponent from "./component/publication/EditPublicationCom
 
 function App() {
   return (
-      <div className="container">
+      <div class="container">
           <Router>
-              <div className="col-md-9">
-                  <ToolbarComponent/>
+              <div class="col-md-9">
                   <Switch>
-                      <Route path="/" exact component={ListUserComponent} />
-                      <Route path="/login" component={LoginComponent} />
+                      <Route path="/" exact component={DashboardComponent} />
+                      <Route path="/login" component={AuthComponent} />
                       <Route path="/users" component={ListUserComponent} />
                       <Route path="/add-user" component={AddUserComponent} />
                       <Route path="/edit-user" component={EditUserComponent} />

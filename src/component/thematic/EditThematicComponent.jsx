@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
 import ThematicApiService from "../../service/thematic/ThematicApiService";
 
 class EditThematicComponent extends Component {

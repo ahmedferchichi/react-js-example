@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
 import ThematicApiService from "../../service/thematic/ThematicApiService";
+import Spinner from "../UI/Spinner/Spinner";
 
 class ListThematicComponent extends Component {
 
@@ -7,6 +9,7 @@ class ListThematicComponent extends Component {
         super(props)
         this.state = {
             themes: [],
+            loading: false,
             message: null
         }
         this.deleteThematic = this.deleteThematic.bind(this);
@@ -20,17 +23,21 @@ class ListThematicComponent extends Component {
     }
 
     reloadThemesList() {
+        this.setState({loading:true});
         ThematicApiService.fetchThemes()
             .then((res) => {
-                this.setState({themes: res.data.result})
+                this.setState({themes: res.data.result});
+                this.setState({loading:false});
             });
     }
 
     deleteThematic(id) {
+        this.setState({loading:true});
         ThematicApiService.deleteThematic(id)
             .then(res => {
                 this.setState({message : 'Thematic deleted successfully.'});
                 this.setState({themes: this.state.themes.filter(thematic => thematic.id !== id)});
+                this.setState({loading:false});
             });
     }
 
@@ -45,32 +52,38 @@ class ListThematicComponent extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <h2 className="text-center">Themes List</h2>
-                <button className="btn btn-danger" style={{width:'100px'}} onClick={() => this.addThematic()}> Add Thematic </button>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th className="hidden">Id</th>
+        let table = <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="hidden">Id</th>
                                 <th>Title</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.state.themes.map(
-                                thematic =>
-                                    <tr key={thematic.id}>
-                                        <td>{thematic.title}</td>
-                                        <td>
-                                            <button title="Delete" onClick={() => this.deleteThematic(thematic.id)}><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                            <button title="Edit" onClick={() => this.editThematic(thematic.id)} style={{marginLeft: '20px'}}><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                                        </td>
-                                    </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.themes.map(
+                                    thematic =>
+                                        <tr key={thematic.id}>
+                                            <td>{thematic.title}</td>
+                                            <td>
+                                                <button title="Delete" onClick={() => this.deleteThematic(thematic.id)}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                <button title="Edit" onClick={() => this.editThematic(thematic.id)} style={{marginLeft: '20px'}}><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                            </td>
+                                        </tr>
                                 )
                             }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>;
+
+        if (this.state.loading){
+            table = <Spinner />;
+        }
+
+        return (
+            <div>
+                <h2 class="text-center">Themes List</h2>
+                <button class="btn btn-danger" style={{width:'100px'}} onClick={() => this.addThematic()}> Add Thematic </button>
+                {table}
 
             </div>
         );

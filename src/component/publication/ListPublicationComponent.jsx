@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
 import PublicationApiService from "../../service/PublicationApiService";
+import Spinner from "../UI/Spinner/Spinner";
 
 class ListPublicationComponent extends Component {
 
@@ -9,6 +11,7 @@ class ListPublicationComponent extends Component {
             visible: true,
             checked: false,
             publications: [],
+            loading: false,
             message: null
         }
         this.deletePublication = this.deletePublication.bind(this);
@@ -26,17 +29,21 @@ class ListPublicationComponent extends Component {
     }
 
     reloadPublicationList() {
+        this.setState({loading:true});
         PublicationApiService.fetchPublications()
             .then((res) => {
-                this.setState({publications: res.data.result})
+                this.setState({publications: res.data.result});
+                this.setState({loading:false});
             });
     }
 
     deletePublication(id) {
+        this.setState({loading:true});
         PublicationApiService.deletePublication(id)
                     .then(res => {
                         this.setState({message : 'Publication deleted successfully.'});
                         this.setState({publications: this.state.publications.filter(publication => publication.id !== id)});
+                        this.setState({loading:false});
                     });
     }
 
@@ -73,47 +80,54 @@ class ListPublicationComponent extends Component {
             : showButton = <button title="Hide" onClick={() => this.show()} style={{marginLeft: '20px'}}><i class="fa fa-eye" aria-hidden="true"></i></button>
         this.state.checked ? checkButton = <button title="mark as important" onClick={() => this.overlook()} style={{marginLeft: '20px'}}><i class="fa fa-thumbs-down" aria-hidden="true"></i></button>
             : checkButton = <button title="mark as not important" onClick={() => this.check()} style={{marginLeft: '20px'}}><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+
+        let table = <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th className="hidden">Id</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Editor</th>
+                                <th>Date</th>
+                                <th>Thematic</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.publications.map(
+                                    publication =>
+                                        <tr key={publication.id}>
+                                            <td>{publication.title}</td>
+                                            <td>{publication.content}</td>
+                                            <td>{publication.editor}</td>
+                                            <td>{publication.date}</td>
+                                            <td>{publication.thematics.map(item => (
+                                                // Sans la `key`, React produira un avertissement spécifique
+                                                <React.Fragment key={item.id}>
+                                                    <dd>{item.title}</dd>
+                                                </React.Fragment>
+                                            ))}</td>
+                                            <td>
+                                                <button title="Delete" onClick={() => this.deletePublication(publication.id)}><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                <button title="Edit" onClick={() => this.editPublication(publication.id)} style={{marginLeft: '10px'}}><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                    {showButton}
+                                                    {checkButton}
+                                            </td>
+                                        </tr>
+                                    )
+                            }
+                        </tbody>
+                    </table>;
+
+        if (this.state.loading){
+            table = <Spinner />;
+        }
+
         return (
             <div>
                 <h2 className="text-center">Publication Details</h2>
                 <button className="btn btn-danger" style={{width:'100px'}} onClick={() => this.addPublication()}> Add Publication </button>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th className="hidden">Id</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Editor</th>
-                            <th>Date</th>
-                            <th>Thematic</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.state.publications.map(
-                        publication =>
-                                    <tr key={publication.id}>
-                                        <td>{publication.title}</td>
-                                        <td>{publication.content}</td>
-                                        <td>{publication.editor}</td>
-                                        <td>{publication.date}</td>
-                                        <td>{publication.thematics.map(item => (
-                                            // Sans la `key`, React produira un avertissement spécifique
-                                            <React.Fragment key={item.id}>
-                                                <dd>{item.title}</dd>
-                                            </React.Fragment>
-                                        ))}</td>
-                                        <td>
-                                            <button title="Delete" onClick={() => this.deletePublication(publication.id)}><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                            <button title="Edit" onClick={() => this.editPublication(publication.id)} style={{marginLeft: '10px'}}><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                                            {showButton}
-                                            {checkButton}
-                                        </td>
-                                    </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
+                {table}
 
             </div>
         );

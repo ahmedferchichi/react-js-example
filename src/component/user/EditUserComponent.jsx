@@ -28,7 +28,7 @@ class EditUserComponent extends Component {
                 email: user.email,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                userType: user.typeUser
+                userType: user.typeUser === "R" ? "Rédacteur"  : user.typeUser === "M" ? "Modérateur"  : "Administrateur"
                 })
             });
     }
